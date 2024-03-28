@@ -39,14 +39,21 @@ docker pull ollama/ollama
 docker run -d -v ./models:/root/.ollama -p 11434:11434 --name ollama ollama/ollama 
 ```
 
-Now you can run the pythonic streamlit app to interact with the model, or use the terminal interface by continuing with step 3
+Now you can run the pythonic streamlit app to interact with the model, or use the terminal interface by continuing with step 5
 
-3. Use the ollama client to query the LLM using docker exec. Use -it for interactive terminal
+3. Install the python dependencies
+
+4. Run the app
+```
+Streamlit run app.py
+```
+
+5. Use the ollama client to query the LLM using docker exec. Use -it for interactive terminal
 ```
 docker exec -it ollama ollama run model
 ```
 
-4. Close the docker container
+6. Close the docker container
 ```
 docker stop ollama
 ```
