@@ -1,0 +1,6 @@
+.DS_Store
+models
+ollamaInterface.py
+.gitattributes
+my_env
+__pycache__
