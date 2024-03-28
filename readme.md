@@ -23,8 +23,6 @@ This code uses the following libraries:
 
 ## Usage
 
-0. Download the Mistral 7B model into your directory into the model folder
-
 1. Build or pull the ollama image (the blueprint to run our container)
 ```
 docker build -t ollama .
