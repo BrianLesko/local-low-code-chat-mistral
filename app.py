@@ -34,29 +34,6 @@ def display_messages():
                 if 'response_time' in message and message['role'] == 'assistant':
                     st.caption(f"Response time: {message['response_time']:.1f}s")
 
-def process_stream(stream, begin_time, Time, placeholder):
-    text = ""
-    times = []
-    for chunk in stream:
-        with Time: 
-            times.append(time.time()-begin_time)
-            st.caption(f"Time: {times[-1]:.1f}s")
-        text += chunk['message']['content']
-        wrapped_text = textwrap.fill(text, width=80)
-        placeholder.markdown(f'<p style="font-size:16px">{wrapped_text}</p>', unsafe_allow_html=True)
-        if 'assistant' in st.session_state.messages[-1]['role']:
-            st.session_state.messages[-1] = {
-                'role': 'assistant', 
-                'content': wrapped_text, 
-                'response_time': times[-1]
-            }
-        else:
-            st.session_state.messages.append({
-                'role': 'assistant', 
-                'content': wrapped_text, 
-                'response_time': times[-1]
-            })
-
 def main():
     gui = customize_gui.gui()
     gui.setup(wide=True,text=" Query a local LLM running in a container, no data is shared to the internet")
@@ -83,15 +60,40 @@ def main():
                 st.write(content)
                 st.caption(f"Number of tokens: {num_tokens}")
         with st.chat_message("assistant"):
-            with st.spinner("Querying the model"):
-                begin_time = time.time()
-                stream = ollama.chat(model='mistral',messages=[{'role': 'user', 'content': content}],stream=True,)
-                col1, col2, col3 = st.columns([1,69,1])
-                with col2:
-                    st.caption(f"Mistral 7B")
-                    placeholder = st.empty()
-                    Time = st.empty()
+            col1, col2, col3 = st.columns([1,69,1])
+            with col2:
+                st.caption(f"Mistral 7B")
 
-            process_stream(stream, begin_time, Time, placeholder)
+                with st.spinner("Querying the model"):
+                    begin_time = time.time()
+                    stream = ollama.chat(model='mistral',messages=[{'role': 'user', 'content': content}],stream=True,)
+                    with col2:
+                        placeholder = st.empty()
+                        Time = st.empty()
+
+                    text = ""
+                    times = []
+                    chunk = next(stream)
+                    text += chunk['message']['content']
+
+                for chunk in stream:
+                    with Time: 
+                        times.append(time.time()-begin_time)
+                        st.caption(f"Time: {times[-1]:.1f}s")
+                    text += chunk['message']['content']
+                    wrapped_text = textwrap.fill(text, width=80)
+                    placeholder.markdown(f'<p style="font-size:16px">{wrapped_text}</p>', unsafe_allow_html=True)
+                    if 'assistant' in st.session_state.messages[-1]['role']:
+                        st.session_state.messages[-1] = {
+                            'role': 'assistant', 
+                            'content': wrapped_text, 
+                            'response_time': times[-1]
+                        }
+                    else:
+                        st.session_state.messages.append({
+                            'role': 'assistant', 
+                            'content': wrapped_text, 
+                            'response_time': times[-1]
+                        })
 
 main()
