@@ -1,8 +1,11 @@
 
 # Local AI Chatbot
-using Mistral 7B 
 
-Use a chatbot that is not connected to the internet
+I wrote this program to show that Local AI can run on a laptop. 
+
+The model is trainable for your own purposes and takes up less than 10GB. 
+
+Its not as quick or as smart as GPT-4, but all the data you feed it stays on your own computer, never touching the internet. Because of the ability to run locally, using this AI is suitable for use with confidential data. 
 
 &nbsp;
 
@@ -15,7 +18,7 @@ This code uses the following libraries:
 - `streamlit`: for building the user interface.
 - `ollama`: for interacting with the local chatbot server
 2. Docker
-- `Ollama Docker image`
+- Ollama Docker image
 3. Mistral 7B model
 - automatically downloaded by the ollama image, note that it is > 8GB
 
