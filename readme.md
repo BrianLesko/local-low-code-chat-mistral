@@ -1,11 +1,15 @@
 
 # Local AI Chatbot
 
-I wrote this program to show that Local AI can run on a laptop. 
+Interact with an AI, like chatGPT, but without connecting to the internet. This code is my implementation of the Mistral 7b LLM with a user interface written in python. This repository acts as a user interface and example implemtation of running an AI model using Ollama, a framework that allows multiple langage models to be easily run and served to a local network for your own purposes, such as enterprise resource planning, or enterprise software. This approach is well suited for enterprise resource management due to its offline nature.
 
-The model is trainable for your own purposes and takes up less than 10GB. 
 
-Its not as quick or as smart as GPT-4, but all the data you feed it stays on your own computer, never touching the internet. Because of the ability to run locally, using this AI is suitable for use with confidential data. 
+## How it works
+A large language model is a type of probabalistic computer model that sequentially predicts the liklihood of the next word in a sequence of words, run locally without internet access. This type of model is good at recreating human like communication when trained on large textual datasets. The LLM is served to the local computer network on port 11434 running in a docker container, which can be easily shut off and deleted, or recreated using docker. Then, the user interface runs from a python program and is served on localhost:8501, accessible from the web browser. The model implemented here is not as quick or as smart as GPT-4.
+
+## Use cases
+
+The model uses here is easily swappable for any model supported by Ollama, and due to its ability to run locally, is well suited for enterprise software and enterprise resource planning, given its offline nature and higher security level, keeping company data offline.
 
 &nbsp;
 
